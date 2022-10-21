@@ -18,22 +18,22 @@ for col in X_train.columns:
     columns.append(col)
 
 
-
+keys = y_train.unique()
+vals = [0] * len(keys)
+hash = {key: value for key, value in zip(keys, vals)}
+print(hash)
 templates = []
 points = []
 ct = 0
 for index, row in X_train.iterrows():
+    points = []
     for i in range(0, len(columns) - 1, 2):
         points.append(Point(row[i], row[i + 1]))
-    print(ct)
-    ct+=1
-    if ct == 4:
-        templates.append(Template(y_train[index], points))
-        points = []
-        print(y_train[index])
-        ct = 0
 
 
+    templates.append(Template(y_train[index], points))
+
+print (len(templates))
 
 
 
@@ -44,20 +44,21 @@ recognizer = Recognizer(templates)
 ct = 0
 points = []
 for index, row in  X_test.iterrows():
-
+    points= []
     for i in range(0,len(columns)-1,2):
-
         points.append(Point(row[i],row[i+1]))
-    ct += 1
-    if ct == 4:
-        result = recognizer.recognize(points)
-        print(result)
-        points = []
-        ct = 0
 
+    result = recognizer.recognize(points)
+    if ct ==4:
+        max_value = max(hash, key=hash.get)
+        print(max_value)
+        ct =0
+        hash = {key: value for key, value in zip(keys, vals)}
 
+    else:
+        hash[result[0]]+= result[1]
 
-
+    ct+=1
 
 
 
