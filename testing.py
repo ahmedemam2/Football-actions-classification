@@ -9,13 +9,15 @@ dftrain = pd.read_csv('FootballDataset.csv')
 dftest = pd.read_csv('Test.csv')
 y=dftrain.Label
 X_train = dftrain.drop('Label',axis='columns')
+X_train = X_train.drop('id',axis='columns')
 y_train = dftrain.Label
 X_test = dftest.drop('Label',axis='columns')
+X_test = X_test.drop('id',axis='columns')
 y_test = dftest.Label
 
 knn = KNeighborsClassifier(n_neighbors=3)
 
-knn.fit(X_train, y_train)
+knn.fit(X_train ,y_train)
 print(knn.predict_proba(X_test))
 print(knn.predict(X_test))
 print(knn.score(X_test,y_test))
